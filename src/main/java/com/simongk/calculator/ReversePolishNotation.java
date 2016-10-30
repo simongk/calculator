@@ -1,59 +1,76 @@
 package com.simongk.calculator;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.EmptyStackException;
-import java.util.Stack;
+import java.util.List;
+import java.util.ListIterator;
 
 public class ReversePolishNotation implements Calculator {
 
-	private Stack<Double> stack;
-	private double firstOperand;
-	private double secondOperand;
-	private double result;
+	protected Deque<Double> stack;
+	protected double firstOperand;
+	protected double secondOperand;
+	protected double result;
+	protected ListIterator<String> iterator;
+	protected List<String> inputList;
+	protected String number;
+
 	private static final String ADD = "+";
 	private static final String SUBTRACT = "-";
 	private static final String MULTIPLY = "*";
 	private static final String DIVIDE = "/";
 
-	public Double calculate(String input) throws ArithmeticException, NumberFormatException, EmptyStackException {
+	public double calculate(String input) throws ArithmeticException, NumberFormatException, EmptyStackException {
+		stack = new ArrayDeque<>();
+		inputList = Arrays.asList(input.split(" "));
+		iterator = inputList.listIterator();
 
-		stack = new Stack<>();
+		while (iterator.hasNext()) {
+			number = iterator.next();
+			calculation();
+		}
 
-		Arrays.asList(input.split(" ")).stream().forEach(number -> {
+		return getElement();
+	}
 
-			if(number.startsWith("0") && number.length() > 1) throw new NumberFormatException();	
-			
-			switch (number) {
-			case ADD:
-				operation(ADD);
-				break;
-			case SUBTRACT:
-				operation(SUBTRACT);
-				break;
-			case MULTIPLY:
-				operation(MULTIPLY);
-				break;
-			case DIVIDE:
-				operation(DIVIDE);
-				break;
+	protected void calculation() {
+		startsFromZeroException(number);
+		chooseOperation(number);
+	}
 
-			default:
-				getLastNumberFromInput(number);
-			}
-		});
-
+	protected Double getElement() {
 		return stack.pop();
 	}
 
-	private void getLastNumberFromInput(String number) {
-		stack.push(Double.parseDouble(number));
+	private void chooseOperation(String number) {
+		switch (number) {
+		case ADD:
+			stack.push(operation(ADD));
+			break;
+		case SUBTRACT:
+			stack.push(operation(SUBTRACT));
+			break;
+		case MULTIPLY:
+			stack.push(operation(MULTIPLY));
+			break;
+		case DIVIDE:
+			stack.push(operation(DIVIDE));
+			break;
+		default:
+			getLastNumberFromInput(number);
+		}
 	}
 
-	private Double operation(String operator) {
+	public double operation(String operator) {
+		secondOperand = getElement();
+		firstOperand = getElement();
+		operationExecution(operator);
+		return result;
+	}
 
-		secondOperand = stack.pop();
-		firstOperand = stack.pop();
-
+	protected void operationExecution(String operator) {
 		if (isAddition(operator))
 			result = firstOperand + secondOperand;
 		else if (isSubtraction(operator))
@@ -66,9 +83,15 @@ public class ReversePolishNotation implements Calculator {
 			result = firstOperand / secondOperand;
 
 		}
+	}
 
-		return stack.push(result);
+	private void startsFromZeroException(String number) {
+		if (number.startsWith("0") && number.length() > 1)
+			throw new NumberFormatException();
+	}
 
+	private void getLastNumberFromInput(String number) {
+		stack.push(Double.parseDouble(number));
 	}
 
 	private boolean isAddition(String operator) {

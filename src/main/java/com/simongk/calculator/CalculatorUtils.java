@@ -24,7 +24,7 @@ public class CalculatorUtils {
 		input = scanner.nextLine();
 
 		try {
-			System.out.println(getCalculator().calculate(input));
+			System.out.println(String.format("%.12f", getCalculator().calculate(input)));
 
 		} catch (EmptyStackException | NumberFormatException e) {
 			System.out.println("Wrong input. Try again.");

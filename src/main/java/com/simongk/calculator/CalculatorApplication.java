@@ -7,12 +7,15 @@ public class CalculatorApplication {
 	private static Calculator calculator;
 	private static boolean again;
 	private static Scanner scanner;
-	private static final String WELCOMETEXT = "Welcome to the calculator, provide the data in Reverse Polish Notation.";
+	private static final String WELCOMETEXT = "Welcome to the calculator, provide the data in ";
+	private static final String RPN = "Reverse Polish Notation.";
+	private static final String NPN = "Normal Polish Notation.";
 
 	public static void main(String[] args) {
-		System.out.println(WELCOMETEXT);
+		
+		System.out.println(WELCOMETEXT + NPN);
 		scanner = new Scanner(System.in);
-		calculator = new ReversePolishNotation();
+		calculator = new NormalPolishNotation();
 		again = true;
 		CalculatorUtils calculatorUtils = new CalculatorUtils(calculator);
 
