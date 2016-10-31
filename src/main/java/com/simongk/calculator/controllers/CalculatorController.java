@@ -18,17 +18,11 @@ public class CalculatorController {
 
 	@GetMapping("onp")
 	public String calculateRnp(@RequestParam(value = "input", required = false) String input) {
-		if (input == "")
-			return "No data provided";
-		else
 			return rpn(input);
 	}
 
 	@GetMapping("np")
 	public String calculateNpn(@RequestParam(value = "input", required = false) String input) {
-		if (input == "")
-			return "No data provided";
-		else
 			return npn(input);
 	}
 
