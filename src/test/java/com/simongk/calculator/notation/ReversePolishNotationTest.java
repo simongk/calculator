@@ -1,8 +1,6 @@
-package com.simongk.calculator;
+package com.simongk.calculator.notation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.*;
-import static com.googlecode.catchexception.CatchException.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +12,9 @@ public class ReversePolishNotationTest {
 
 	private Calculator notation;
 
-	
 	@Before
 	public void setup() {
-		
+
 		notation = new ReversePolishNotation();
 	}
 
@@ -36,15 +33,9 @@ public class ReversePolishNotationTest {
 		assertThat(notation.calculate("6 3 /")).isEqualTo(2.0);
 	}
 
-	@Test
+	@Test(expected = ArithmeticException.class)
 	public void testArtihmeticException() {
-		
-		when(notation).calculate("3 0 /");
-		
-		then(caughtException())
-		.isInstanceOf(ArithmeticException.class)
-		.hasMessage("Cannot do it by zero.");
-		
+		notation.calculate("3 0 /");
 	}
 
 	@Test
@@ -56,7 +47,7 @@ public class ReversePolishNotationTest {
 	public void calculateSomethingComplicatedTest() {
 		assertThat(notation.calculate("5 1 2 + 4 * + 3 -")).isEqualTo(14.0);
 	}
-	
+
 	@Test
 	public void moduloTest() {
 		assertThat(notation.calculate("14 10 %")).isEqualTo(4.0);

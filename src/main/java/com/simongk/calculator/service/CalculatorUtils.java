@@ -1,6 +1,5 @@
 package com.simongk.calculator.service;
 
-import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -28,7 +27,7 @@ public class CalculatorUtils {
 		try {
 			System.out.println(String.format("%.12f", getCalculator().calculate(input)));
 
-		} catch (EmptyStackException | NumberFormatException | NoSuchElementException e) {
+		} catch (NumberFormatException | NoSuchElementException e) {
 			System.out.println("Wrong input. Try again.");
 		} catch (ArithmeticException e) {
 			System.out.println(e.getMessage());

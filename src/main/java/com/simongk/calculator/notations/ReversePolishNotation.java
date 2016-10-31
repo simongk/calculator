@@ -3,7 +3,6 @@ package com.simongk.calculator.notations;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -26,8 +25,13 @@ public class ReversePolishNotation implements Calculator {
 	private static final String DIVIDE = "/";
 	private static final String MODULO = "%";
 
-	public double calculate(String input)
-			throws ArithmeticException, NumberFormatException, EmptyStackException, NoSuchElementException {
+	private static final String ADD_REST = "add";
+	private static final String SUBTRACT_REST = "sub";
+	private static final String MULTIPLY_REST = "mul";
+	private static final String DIVIDE_REST = "div";
+	private static final String MODULO_REST = "mod";
+
+	public double calculate(String input) throws ArithmeticException, NumberFormatException, NoSuchElementException {
 		stack = new ArrayDeque<>();
 		inputList = Arrays.asList(input.split("\\s+"));
 		iterator = inputList.listIterator();
@@ -52,18 +56,23 @@ public class ReversePolishNotation implements Calculator {
 	private void chooseOperation(String number) {
 		switch (number) {
 		case ADD:
+		case ADD_REST:
 			stack.push(operation(ADD));
 			break;
 		case SUBTRACT:
+		case SUBTRACT_REST:
 			stack.push(operation(SUBTRACT));
 			break;
 		case MULTIPLY:
+		case MULTIPLY_REST:
 			stack.push(operation(MULTIPLY));
 			break;
 		case DIVIDE:
+		case DIVIDE_REST:
 			stack.push(operation(DIVIDE));
 			break;
 		case MODULO:
+		case MODULO_REST:
 			stack.push(operation(MODULO));
 			break;
 		default:
@@ -90,23 +99,22 @@ public class ReversePolishNotation implements Calculator {
 			result = firstOperand / secondOperand;
 		} else if (isModulo(operator)) {
 			byZeroException();
-			if(isInteger() )
-			result = firstOperand % secondOperand;
-			else 
+			if (isInteger())
+				result = firstOperand % secondOperand;
+			else
 				result = Math.IEEEremainder(firstOperand, secondOperand);
 		}
 	}
 
 	private boolean isInteger() {
-		return ((firstOperand == Math.floor(firstOperand)) && !Double.isInfinite(firstOperand)) 
-				||((secondOperand == Math.floor(secondOperand)) && !Double.isInfinite(secondOperand));
+		return ((firstOperand == Math.floor(firstOperand)) && !Double.isInfinite(firstOperand))
+				|| ((secondOperand == Math.floor(secondOperand)) && !Double.isInfinite(secondOperand));
 	}
 
 	private void byZeroException() {
 		if (secondOperand == 0)
 			throw new ArithmeticException("Cannot do it by zero.");
 	}
-
 
 	private void startsFromZeroException(String number) {
 		if (number.startsWith("0") && number.length() > 1)

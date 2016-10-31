@@ -1,8 +1,5 @@
-package com.simongk.calculator;
+package com.simongk.calculator.notation;
 
-import static com.googlecode.catchexception.CatchException.caughtException;
-import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.then;
-import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -15,10 +12,9 @@ public class NormalPolishNotationTest {
 
 	private Calculator notation;
 
-	
 	@Before
 	public void setup() {
-		
+
 		notation = new NormalPolishNotation();
 	}
 
@@ -37,15 +33,9 @@ public class NormalPolishNotationTest {
 		assertThat(notation.calculate("/ 10 5")).isEqualTo(2.0);
 	}
 
-	@Test
+	@Test(expected = ArithmeticException.class)
 	public void testArtihmeticException() {
-		
-		when(notation).calculate("/ 3 0");
-		
-		then(caughtException())
-		.isInstanceOf(ArithmeticException.class)
-		.hasMessage("Cannot divide by zero.");
-		
+		notation.calculate("/ 3 0");
 	}
 
 	@Test
@@ -57,7 +47,7 @@ public class NormalPolishNotationTest {
 	public void calculateSomethingComplicatedTest() {
 		assertThat(notation.calculate("- * / 15 - 7 + 1 1 3 + 2 + 1 1")).isEqualTo(5.0);
 	}
-	
+
 	@Test
 	public void moduloTest() {
 		assertThat(notation.calculate("% 14 10")).isEqualTo(4.0);
