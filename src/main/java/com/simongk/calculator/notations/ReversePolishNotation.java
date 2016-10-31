@@ -1,4 +1,4 @@
-package com.simongk.calculator;
+package com.simongk.calculator.notations;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -6,6 +6,9 @@ import java.util.Deque;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
+
+import com.simongk.calculator.service.Calculator;
 
 public class ReversePolishNotation implements Calculator {
 
@@ -21,10 +24,12 @@ public class ReversePolishNotation implements Calculator {
 	private static final String SUBTRACT = "-";
 	private static final String MULTIPLY = "*";
 	private static final String DIVIDE = "/";
+	private static final String MODULO = "%";
 
-	public double calculate(String input) throws ArithmeticException, NumberFormatException, EmptyStackException {
+	public double calculate(String input)
+			throws ArithmeticException, NumberFormatException, EmptyStackException, NoSuchElementException {
 		stack = new ArrayDeque<>();
-		inputList = Arrays.asList(input.split(" "));
+		inputList = Arrays.asList(input.split("\\s+"));
 		iterator = inputList.listIterator();
 
 		while (iterator.hasNext()) {
@@ -58,6 +63,9 @@ public class ReversePolishNotation implements Calculator {
 		case DIVIDE:
 			stack.push(operation(DIVIDE));
 			break;
+		case MODULO:
+			stack.push(operation(MODULO));
+			break;
 		default:
 			getLastNumberFromInput(number);
 		}
@@ -78,12 +86,19 @@ public class ReversePolishNotation implements Calculator {
 		else if (isMultiplication(operator))
 			result = firstOperand * secondOperand;
 		else if (isDivision(operator)) {
-			if (secondOperand == 0)
-				throw new ArithmeticException("Cannot divide by zero.");
+			byZeroException();
 			result = firstOperand / secondOperand;
-
+		} else if (isModulo(operator)) {
+			byZeroException();
+			result = firstOperand % secondOperand;
 		}
 	}
+
+	private void byZeroException() {
+		if (secondOperand == 0)
+			throw new ArithmeticException("Cannot do it by zero.");
+	}
+
 
 	private void startsFromZeroException(String number) {
 		if (number.startsWith("0") && number.length() > 1)
@@ -108,6 +123,10 @@ public class ReversePolishNotation implements Calculator {
 
 	private boolean isDivision(String operator) {
 		return operator.equals(DIVIDE);
+	}
+
+	private boolean isModulo(String operator) {
+		return operator.equals(MODULO);
 	}
 
 }

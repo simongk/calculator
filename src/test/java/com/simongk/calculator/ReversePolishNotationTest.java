@@ -7,6 +7,9 @@ import static com.googlecode.catchexception.CatchException.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.simongk.calculator.notations.ReversePolishNotation;
+import com.simongk.calculator.service.Calculator;
+
 public class ReversePolishNotationTest {
 
 	private Calculator notation;
@@ -40,7 +43,7 @@ public class ReversePolishNotationTest {
 		
 		then(caughtException())
 		.isInstanceOf(ArithmeticException.class)
-		.hasMessage("Cannot divide by zero.");
+		.hasMessage("Cannot do it by zero.");
 		
 	}
 
@@ -53,4 +56,10 @@ public class ReversePolishNotationTest {
 	public void calculateSomethingComplicatedTest() {
 		assertThat(notation.calculate("5 1 2 + 4 * + 3 -")).isEqualTo(14.0);
 	}
+	
+	@Test
+	public void moduloTest() {
+		assertThat(notation.calculate("14 10 %")).isEqualTo(4.0);
+	}
+
 }

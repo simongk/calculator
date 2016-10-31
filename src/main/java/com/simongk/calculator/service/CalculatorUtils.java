@@ -1,6 +1,7 @@
-package com.simongk.calculator;
+package com.simongk.calculator.service;
 
 import java.util.EmptyStackException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import lombok.Getter;
@@ -21,15 +22,17 @@ public class CalculatorUtils {
 
 		scanner = new Scanner(System.in);
 		System.out.println("Input your data: ");
+
 		input = scanner.nextLine();
 
 		try {
 			System.out.println(String.format("%.12f", getCalculator().calculate(input)));
 
-		} catch (EmptyStackException | NumberFormatException e) {
+		} catch (EmptyStackException | NumberFormatException | NoSuchElementException e) {
 			System.out.println("Wrong input. Try again.");
 		} catch (ArithmeticException e) {
 			System.out.println(e.getMessage());
 		}
 	}
+	
 }

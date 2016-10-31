@@ -1,11 +1,15 @@
 package com.simongk.calculator;
 
+import static com.googlecode.catchexception.CatchException.caughtException;
+import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.then;
+import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.when;
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.googlecode.catchexception.apis.CatchExceptionAssertJ.*;
-import static com.googlecode.catchexception.CatchException.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.simongk.calculator.notations.NormalPolishNotation;
+import com.simongk.calculator.service.Calculator;
 
 public class NormalPolishNotationTest {
 
@@ -52,5 +56,10 @@ public class NormalPolishNotationTest {
 	@Test
 	public void calculateSomethingComplicatedTest() {
 		assertThat(notation.calculate("- * / 15 - 7 + 1 1 3 + 2 + 1 1")).isEqualTo(5.0);
+	}
+	
+	@Test
+	public void moduloTest() {
+		assertThat(notation.calculate("% 14 10")).isEqualTo(4.0);
 	}
 }

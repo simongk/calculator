@@ -1,15 +1,16 @@
-package com.simongk.calculator;
+package com.simongk.calculator.notations;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.EmptyStackException;
+import java.util.NoSuchElementException;
 
 public class NormalPolishNotation extends ReversePolishNotation {
 
 	@Override
-	public double calculate(String input) throws ArithmeticException, NumberFormatException, EmptyStackException {
+	public double calculate(String input) throws ArithmeticException, NumberFormatException, EmptyStackException, NoSuchElementException {
 		stack = new ArrayDeque<>();
-		inputList = Arrays.asList(input.split(" "));
+		inputList = Arrays.asList(input.split("\\s+"));
 		iterator = inputList.listIterator(inputList.size());
 
 		while (iterator.hasPrevious()) {
