@@ -90,8 +90,16 @@ public class ReversePolishNotation implements Calculator {
 			result = firstOperand / secondOperand;
 		} else if (isModulo(operator)) {
 			byZeroException();
+			if(isInteger() )
 			result = firstOperand % secondOperand;
+			else 
+				result = Math.IEEEremainder(firstOperand, secondOperand);
 		}
+	}
+
+	private boolean isInteger() {
+		return ((firstOperand == Math.floor(firstOperand)) && !Double.isInfinite(firstOperand)) 
+				||((secondOperand == Math.floor(secondOperand)) && !Double.isInfinite(secondOperand));
 	}
 
 	private void byZeroException() {
