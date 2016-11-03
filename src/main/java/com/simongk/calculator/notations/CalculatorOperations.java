@@ -39,13 +39,12 @@ public class CalculatorOperations {
 
 	private double calculateInCertainNotation(String operator) {
 		checkNotation();
-		notANumberException(firstOperand, secondOperand);
 		doChosenOperation(operator, firstOperand, secondOperand);
 		return valueToPush;
 	}
 
 	private void checkNotation() {
-		if (isRPN == true && !Double.isNaN(secondOperand)) {
+		if (isRPN == true) {
 			secondOperand = getElement();
 			firstOperand = getElement();
 		} else {
@@ -55,16 +54,13 @@ public class CalculatorOperations {
 	}
 
 	private void doChosenOperation(String operator, double firstOperand, double secondOperand) {
-		if (isAdd(operator)){
+		if (isAdd(operator)) {
 			valueToPush = firstOperand + secondOperand;
-			}
-		else if (isSubtract(operator)){
+		} else if (isSubtract(operator)) {
 			valueToPush = firstOperand - secondOperand;
-		}
-		else if (isMultiply(operator)){
+		} else if (isMultiply(operator)) {
 			valueToPush = firstOperand * secondOperand;
-		}
-		else if (isDivide(operator)) {
+		} else if (isDivide(operator)) {
 			byZeroException();
 			valueToPush = firstOperand / secondOperand;
 		} else if (isModulo(operator)) {
@@ -85,30 +81,21 @@ public class CalculatorOperations {
 		if (!(secondOperand > 0 || secondOperand < 0))
 			stack.pop();
 	}
-	
-	private void notANumberException(double firstOperand, double secondOperand){
-		if(Double.isNaN(firstOperand) || Double.isNaN(secondOperand)){
-			stack.pop();
-		}
-	}
-	
+
 
 	private void startsFromZeroException(String number) {
 		if (number.startsWith("0") && number.length() > 1 && !number.startsWith("0."))
 			stack.pop();
 	}
-	
-	
 
 	private void getLastNumberFromInput(String number) {
-		if(!isDouble(number)){
+		if (!isDouble(number)) {
 			stack.pop();
-		}
-		else
+		} else
 			stack.push(Double.parseDouble(number));
 	}
-	
-	private boolean isDouble(String number){
+
+	private boolean isDouble(String number) {
 		try {
 			Double.parseDouble(number);
 			return true;
