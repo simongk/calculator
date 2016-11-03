@@ -1,30 +1,32 @@
 package com.simongk.calculator.notations;
 
-import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-public class NormalPolishNotation extends ReversePolishNotation {
+import com.simongk.calculator.service.Calculator;
+
+public class NormalPolishNotation implements Calculator {
+
+	private List<String> inputList;
+	private ListIterator<String> iterator;
+	private String number;
+	private CalculatorOperations operations;
 
 	@Override
 	public double calculate(String input) throws ArithmeticException, NumberFormatException, NoSuchElementException {
-		stack = new ArrayDeque<>();
+		operations = new CalculatorOperations();
+		operations.setRPN(false);
 		inputList = Arrays.asList(input.split("\\s+"));
 		iterator = inputList.listIterator(inputList.size());
 
 		while (iterator.hasPrevious()) {
 			number = iterator.previous();
-			calculation();
+			operations.doChosenCalculation(number);
 		}
 
-		return getElement();
+		return operations.getStack().pop();
 	}
 
-	@Override
-	public double operation(String operator) {
-		firstOperand = getElement();
-		secondOperand = getElement();
-		operationExecution(operator);
-		return result;
-	}
 }

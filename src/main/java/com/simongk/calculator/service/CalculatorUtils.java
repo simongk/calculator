@@ -1,6 +1,5 @@
 package com.simongk.calculator.service;
 
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import lombok.Getter;
@@ -17,21 +16,17 @@ public class CalculatorUtils {
 		this.calculator = calculator;
 	}
 
-	public void mainCalculation() {
+	public void doConsoleCalculation() {
 
 		scanner = new Scanner(System.in);
 		System.out.println("Input your data: ");
-
 		input = scanner.nextLine();
 
 		try {
 			System.out.println(String.format("%.12f", getCalculator().calculate(input)));
 
-		} catch (NumberFormatException | NoSuchElementException e) {
-			System.out.println("Wrong input. Try again.");
-		} catch (ArithmeticException e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Wrong data provided.");
 		}
 	}
-	
 }

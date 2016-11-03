@@ -2,6 +2,8 @@ package com.simongk.calculator.notation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.NoSuchElementException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,12 +31,12 @@ public class NormalPolishNotationTest {
 	}
 
 	@Test
-	public void divisionTest() throws ArithmeticException {
+	public void divisionTest() throws NoSuchElementException {
 		assertThat(notation.calculate("/ 10 5")).isEqualTo(2.0);
 	}
 
-	@Test(expected = ArithmeticException.class)
-	public void testArtihmeticException() {
+	@Test(expected = NoSuchElementException.class)
+	public void testNoSuchElementException() {
 		notation.calculate("/ 3 0");
 	}
 

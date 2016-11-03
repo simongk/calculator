@@ -2,6 +2,8 @@ package com.simongk.calculator.notation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.NoSuchElementException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +16,6 @@ public class ReversePolishNotationTest {
 
 	@Before
 	public void setup() {
-
 		notation = new ReversePolishNotation();
 	}
 
@@ -29,13 +30,13 @@ public class ReversePolishNotationTest {
 	}
 
 	@Test
-	public void divisionTest() throws ArithmeticException {
+	public void divisionTest() throws NoSuchElementException {
 		assertThat(notation.calculate("6 3 /")).isEqualTo(2.0);
 	}
 
-	@Test(expected = ArithmeticException.class)
-	public void testArtihmeticException() {
-		notation.calculate("3 0 /");
+	@Test(expected = NoSuchElementException.class)
+	public void testNoSuchElementException() {
+		notation.calculate("123 'select * from");
 	}
 
 	@Test
@@ -49,7 +50,7 @@ public class ReversePolishNotationTest {
 	}
 
 	@Test
-	public void moduloTest() {
+	public void moduloTest() throws NoSuchElementException{
 		assertThat(notation.calculate("14 10 %")).isEqualTo(4.0);
 	}
 

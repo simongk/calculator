@@ -14,7 +14,6 @@ import com.simongk.calculator.service.Calculator;
 public class CalculatorController {
 
 	private Calculator calculator;
-	private double result;
 
 	@GetMapping("onp")
 	public String calculateRnp(@RequestParam(value = "input", required = false) String input) {
@@ -27,29 +26,23 @@ public class CalculatorController {
 	}
 
 	private String rpn(String input) throws ArithmeticException,NumberFormatException,NoSuchElementException {
+		double result = 0;
 		try {
 			calculator = new ReversePolishNotation();
 			result = calculator.calculate(input);
-		} catch (NumberFormatException | NoSuchElementException e) {
+		} catch (Exception e) {
 			return "Wrong data provided.";
-		} catch (ArithmeticException e) {
-			return "Cannot do it by zero.";
-		} catch (NullPointerException e){
-			return "There is no data in parameter.";
 		}
 		return Double.toString(result);
 	}
 
 	private String npn(String input) throws ArithmeticException,NumberFormatException,NoSuchElementException {
+		double result = 0;
 		try {
 			calculator = new NormalPolishNotation();
 			result = calculator.calculate(input);
-		} catch (NumberFormatException | NoSuchElementException e) {
+		} catch (Exception e) {
 			return "Wrong data provided.";
-		} catch (ArithmeticException e) {
-			return "Cannot do it by zero.";
-		} catch (NullPointerException e){
-			return "There is no data in parameter.";
 		}
 		return Double.toString(result);
 	}
