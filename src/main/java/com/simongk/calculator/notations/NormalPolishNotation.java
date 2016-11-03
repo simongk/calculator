@@ -15,7 +15,7 @@ public class NormalPolishNotation implements Calculator {
 	private CalculatorOperations operations;
 
 	@Override
-	public double calculate(String input) throws ArithmeticException, NumberFormatException, NoSuchElementException {
+	public double calculate(String input) throws NoSuchElementException {
 		operations = new CalculatorOperations();
 		operations.setRPN(false);
 		inputList = Arrays.asList(input.split("\\s+"));
